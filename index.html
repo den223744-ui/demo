@@ -59,6 +59,10 @@ h2{font-size:1.5rem;margin:0 0 6px;font-weight:700;letter-spacing:-.01em}
 .thumb span{font-size:1.9rem;letter-spacing:.38em;padding-left:.38em;font-weight:300}
 .thumb.coffee span{color:#f7f1e8;font-family:Georgia,serif}
 .thumb.beauty span{color:#2c2320;font-family:Georgia,serif}
+.thumb.cards{background:linear-gradient(160deg,#1a1f29,#232a36);gap:10px;display:flex;align-items:center;justify-content:center;padding:14px}
+.thumb.cards img{height:100%;width:auto;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.card.wide{grid-column:1/-1}
+.card.wide .thumb{height:230px}
 .card-body{padding:24px 24px 26px;flex:1;display:flex;flex-direction:column}
 .card h3{margin:0 0 6px;font-size:1.18rem;font-weight:700}
 .card .desc{color:var(--muted);font-size:.9rem;font-weight:300;flex:1}
@@ -126,12 +130,30 @@ footer{padding:56px 0 46px;margin-top:50px;border-top:1px solid var(--line);colo
   </section>
 
   <section class="sec">
+    <h2>Карточки для маркетплейсов</h2>
+    <p>Инфографика для WB и Ozon: 5 слайдов на товар, SEO-название и описание.</p>
+    <div class="grid">
+      <a class="card wide" href="cards/">
+        <div class="thumb cards">
+          <img src="cards/norda-450/wb/slide-1.jpg" alt="Термокружка NORDA, обложка" loading="lazy">
+          <img src="cards/norda-450/wb/slide-3.jpg" alt="Термокружка NORDA, график" loading="lazy">
+          <img src="cards/aquelle-ha30/wb/slide-1.jpg" alt="Сыворотка AQUELLE, обложка" loading="lazy">
+          <img src="cards/aquelle-ha30/wb/slide-2.jpg" alt="Сыворотка AQUELLE, состав" loading="lazy">
+        </div>
+        <div class="card-body">
+          <h3>Термокружка NORDA и сыворотка AQUELLE</h3>
+          <p class="desc">Два товара по 5 слайдов: обложка, характеристики, выгода, сценарии, комплектация. Размеры 900×1200 для WB и 1200×1600 для Ozon.</p>
+          <div class="tags"><span class="tag">Wildberries</span><span class="tag">Ozon</span><span class="tag">SEO-тексты</span></div>
+          <span class="open">Смотреть карточки <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="sec">
     <h2>В работе</h2>
     <p>Добавлю сюда, как только будут готовы.</p>
-    <div class="soon-grid">
-      <div class="soon">
-        <div><b>Карточки товаров</b>Инфографика для WB, Ozon и Trendyol: исходное фото → готовая карточка в размере маркетплейса.</div>
-      </div>
+    <div class="soon-grid" style="grid-template-columns:1fr">
       <div class="soon">
         <div><b>Telegram-боты</b>Запись к мастеру и каталог с корзиной — с видео, как это работает.</div>
       </div>

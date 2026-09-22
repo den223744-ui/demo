@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шаблон слайдов карточки товара</title>
+<!--
+  Шаблон слайдов для карточек WB / Ozon.
+  Один слайд:  slides.html?p=norda&s=1          (900x1200, для Ozon рендер с масштабом 4/3 -> 1200x1600)
+  Все слайды:  slides.html?p=norda              (контактный лист для проверки)
+  Данные товаров лежат в products.js. Типы слайдов: cover, specs, chart, grid3, facts, steps, box.
+  Вместо векторного рисунка можно подставить фото: поле photo: "img/norda.png" (PNG без фона).
+-->
+<link rel="stylesheet" href="fonts.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#d9d9d9}
+body{font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+
+/* ---------- слайд 900x1200 ---------- */
+.slide{
+  --pad:64px;
+  width:900px;height:1200px;position:relative;overflow:hidden;
+  background:var(--bg);color:var(--ink);
+}
+.slide .glow{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(620px 620px at 78% 38%, var(--bg2), transparent 70%),
+    radial-gradient(500px 400px at 10% 100%, var(--bg2), transparent 70%);}
+.brand{position:absolute;top:54px;left:var(--pad);font-family:'Unbounded',sans-serif;font-weight:700;
+  font-size:26px;letter-spacing:.28em;color:var(--ink)}
+.idx{position:absolute;top:58px;right:var(--pad);font-size:20px;font-weight:600;color:var(--muted);letter-spacing:.1em}
+.demo{position:absolute;left:var(--pad);bottom:26px;font-size:14px;color:var(--muted);opacity:.55;letter-spacing:.04em}
+h1,h2{font-family:'Unbounded',sans-serif;font-weight:700;letter-spacing:-.01em;white-space:pre-line}
+h2{position:absolute;top:128px;left:var(--pad);right:var(--pad);font-size:62px;line-height:1.08}
+.art{position:absolute}
+.art svg,.art img{width:100%;height:100%;display:block}
+
+/* cover */
+.cover .badge{position:absolute;top:128px;left:var(--pad);background:var(--accent);color:#fff;
+  font-weight:800;font-size:28px;padding:14px 28px;border-radius:999px}
+.cover h1{position:absolute;top:220px;left:var(--pad);font-size:76px;line-height:1.04;z-index:2}
+.cover .sub{position:absolute;top:420px;left:var(--pad);font-size:34px;line-height:1.3;font-weight:600;
+  color:var(--muted);white-space:pre-line;z-index:2}
+.cover .art{right:20px;bottom:110px;width:420px;height:650px}
+.cover .chips{position:absolute;left:var(--pad);bottom:110px;display:flex;flex-direction:column;gap:18px;z-index:2}
+.chip{display:inline-flex;align-self:flex-start;align-items:center;gap:14px;background:#fff;color:var(--ink);
+  font-size:32px;font-weight:700;padding:16px 28px 16px 20px;border-radius:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.chip::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--accent);flex:none}
+
+/* specs */
+.specs .art{left:70px;top:330px;width:330px;height:660px}
+.specs .dim{position:absolute;font-weight:800;font-size:30px;color:var(--ink)}
+.specs .dim-v{left:410px;top:330px;height:660px;width:2px;background:var(--ink)}
+.specs .dim-v::before,.specs .dim-v::after{content:"";position:absolute;left:-12px;width:26px;height:2px;background:var(--ink)}
+.specs .dim-v::before{top:0}.specs .dim-v::after{bottom:0}
+.specs .dim-v span{position:absolute;left:22px;top:50%;transform:translate(-50%,-50%) rotate(-90deg) translateY(-50%);transform-origin:center;white-space:nowrap;left:34px}
+.specs .dim-h{left:130px;top:1020px;width:210px;height:2px;background:var(--ink)}
+.specs .dim-h::before,.specs .dim-h::after{content:"";position:absolute;top:-12px;width:2px;height:26px;background:var(--ink)}
+.specs .dim-h::before{left:0}.specs .dim-h::after{right:0}
+.specs .dim-h span{position:absolute;top:14px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.specs .table{position:absolute;right:var(--pad);top:380px;width:340px;display:flex;flex-direction:column;gap:14px}
+.specs .row{background:#fff;border-radius:22px;padding:22px 26px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.specs .row small{display:block;font-size:22px;font-weight:600;color:var(--muted)}
+.specs .row b{display:block;font-size:32px;font-weight:800;line-height:1.2;margin-top:2px}
+
+/* chart */
+.chart .sub{position:absolute;top:290px;left:var(--pad);font-size:28px;font-weight:600;color:var(--muted)}
+.chart .plot{position:absolute;left:var(--pad);right:var(--pad);top:380px;height:520px;background:#fff;border-radius:34px;
+  box-shadow:0 14px 40px rgba(0,0,0,.07)}
+.chart .plot svg{width:100%;height:100%}
+.chart .callout{position:absolute;left:var(--pad);right:var(--pad);bottom:110px;background:var(--deep);color:var(--onDeep);
+  border-radius:30px;padding:34px 40px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:44px;line-height:1.15}
+.chart .art{right:40px;bottom:250px;width:0;height:0}
+
+/* grid3 */
+.grid3 .list{position:absolute;left:var(--pad);right:var(--pad);top:340px;display:flex;flex-direction:column;gap:22px}
+.grid3 .item{display:flex;align-items:center;gap:30px;background:#fff;border-radius:30px;padding:30px 34px;min-height:220px;
+  box-shadow:0 14px 40px rgba(0,0,0,.06)}
+.grid3 .ico{flex:none;width:140px;height:140px;border-radius:32px;background:var(--deep);color:var(--onDeep);
+  display:grid;place-items:center}
+.grid3 .ico svg{width:74px;height:74px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.grid3 .ico.big{font-family:'Unbounded',sans-serif;font-weight:700;font-size:44px;color:var(--onDeep)}
+.grid3 .item h3{font-size:38px;font-weight:800;line-height:1.1}
+.grid3 .item p{font-size:29px;font-weight:600;color:var(--muted);line-height:1.3;margin-top:8px}
+.grid3 .art{right:-60px;bottom:-40px;width:0;height:0}
+
+/* facts */
+.facts .list{position:absolute;left:var(--pad);top:350px;width:470px;display:flex;flex-direction:column;gap:22px}
+.facts .fact{background:#fff;border-radius:30px;padding:30px 34px;box-shadow:0 14px 40px rgba(0,0,0,.06)}
+.facts .fact b{display:block;font-family:'Unbounded',sans-serif;font-weight:700;font-size:64px;line-height:1;color:var(--accent)}
+.facts .fact span{display:block;font-size:29px;font-weight:600;color:var(--muted);margin-top:12px;line-height:1.3}
+.facts .art{right:0;top:330px;width:380px;height:760px}
+
+/* steps */
+.steps .list{position:absolute;left:var(--pad);top:350px;width:500px;display:flex;flex-direction:column;gap:0}
+.steps .step{display:grid;grid-template-columns:96px 1fr;gap:26px;padding-bottom:44px;position:relative}
+.steps .step:not(:last-child)::after{content:"";position:absolute;left:47px;top:100px;bottom:8px;width:3px;background:var(--accent);opacity:.35}
+.steps .num{width:96px;height:96px;border-radius:50%;background:var(--deep);color:var(--onDeep);display:grid;place-items:center;
+  font-family:'Unbounded',sans-serif;font-weight:700;font-size:40px}
+.steps h3{font-size:40px;font-weight:800;line-height:1.1;margin-top:10px}
+.steps p{font-size:28px;font-weight:600;color:var(--muted);line-height:1.3;margin-top:8px}
+.steps .art{right:10px;top:330px;width:320px;height:740px}
+.steps .when{position:absolute;left:var(--pad);bottom:110px;background:var(--deep);color:var(--onDeep);border-radius:24px;
+  padding:22px 30px;font-size:30px;font-weight:700}
+
+/* box */
+.box .panel{position:absolute;left:var(--pad);top:350px;width:500px;background:#fff;border-radius:34px;padding:40px 40px 30px;
+  box-shadow:0 14px 40px rgba(0,0,0,.07)}
+.box .panel li{list-style:none;display:flex;gap:18px;align-items:flex-start;font-size:31px;font-weight:700;line-height:1.25;padding:14px 0;
+  border-bottom:2px solid rgba(0,0,0,.06)}
+.box .panel li:last-child{border-bottom:0}
+.box .panel li::before{content:"";flex:none;width:34px;height:34px;margin-top:2px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/22px no-repeat}
+.box .notes{position:absolute;left:var(--pad);bottom:110px;width:500px;font-size:27px;font-weight:600;color:var(--muted);line-height:1.35}
+.box .seal{position:absolute;right:70px;bottom:120px;width:230px;height:230px;border-radius:50%;background:var(--deep);color:var(--onDeep);
+  display:grid;place-items:center;text-align:center;font-family:'Unbounded',sans-serif;font-weight:700;font-size:30px;line-height:1.2;
+  white-space:pre-line;transform:rotate(-8deg);box-shadow:0 18px 40px rgba(0,0,0,.18);z-index:3}
+.box .art{right:40px;top:300px;width:300px;height:620px}
+
+/* ---------- контактный лист ---------- */
+body.sheet{padding:40px;background:#cfcfcf}
+.sheet-grid{display:flex;flex-wrap:wrap;gap:28px}
+.sheet-cell{width:calc(900px * .32);height:calc(1200px * .32);overflow:hidden;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.sheet-cell .slide{transform:scale(.32);transform-origin:0 0}
+</style>
+<script src="products.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* ---------- векторные рисунки товаров ---------- */
+let uid = 0;
+function mugSVG(t){
+  const i = ++uid;
+  return `<svg viewBox="0 0 300 620" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mb${i}" x1="0" x2="1">
+      <stop offset="0" stop-color="#132822"/><stop offset=".22" stop-color="#2c5447"/>
+      <stop offset=".34" stop-color="#3f6f60"/><stop offset=".5" stop-color="#244a3e"/>
+      <stop offset="1" stop-color="#0f211c"/></linearGradient>
+    <linearGradient id="ms${i}" x1="0" x2="1">
+      <stop offset="0" stop-color="#8e9391"/><stop offset=".3" stop-color="#eef0ee"/>
+      <stop offset=".55" stop-color="#b9bdbb"/><stop offset="1" stop-color="#6f7472"/></linearGradient>
+    <linearGradient id="ml${i}" x1="0" x2="1">
+      <stop offset="0" stop-color="#1b1d1c"/><stop offset=".3" stop-color="#4a4d4b"/>
+      <stop offset=".6" stop-color="#2a2c2b"/><stop offset="1" stop-color="#121312"/></linearGradient>
+    <radialGradient id="msh${i}"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="150" cy="598" rx="130" ry="16" fill="url(#msh${i})"/>
+  <!-- корпус -->
+  <path d="M58 150 H242 L228 572 Q226 590 208 590 H92 Q74 590 72 572 Z" fill="url(#mb${i})"/>
+  <!-- нижнее стальное кольцо -->
+  <path d="M71 548 H229 L228 572 Q226 590 208 590 H92 Q74 590 72 572 Z" fill="url(#ms${i})"/>
+  <!-- блик -->
+  <path d="M96 170 L88 540" stroke="#fff" stroke-opacity=".16" stroke-width="10" stroke-linecap="round"/>
+  <!-- логотип -->
+  <text x="150" y="330" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="22" letter-spacing="6" fill="${t.onDeep}" fill-opacity=".85">NORDA</text>
+  <text x="150" y="358" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="13" letter-spacing="4" fill="${t.onDeep}" fill-opacity=".55">450 ML</text>
+  <!-- стальной ободок под крышкой -->
+  <rect x="52" y="132" width="196" height="24" rx="6" fill="url(#ms${i})"/>
+  <!-- крышка -->
+  <path d="M56 136 Q56 84 104 78 H196 Q244 84 244 136 Z" fill="url(#ml${i})"/>
+  <rect x="120" y="86" width="86" height="20" rx="10" fill="#0c0d0c"/>
+  <rect x="124" y="89" width="36" height="14" rx="7" fill="${t.accent}"/>
+  <path d="M80 118 Q150 108 220 118" stroke="#fff" stroke-opacity=".12" stroke-width="4" fill="none"/>
+</svg>`;
+}
+function serumSVG(t){
+  const i = ++uid;
+  return `<svg viewBox="0 0 300 620" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sg${i}" x1="0" x2="1">
+      <stop offset="0" stop-color="#3b2a1a" stop-opacity=".9"/><stop offset=".2" stop-color="#8a5a2b" stop-opacity=".85"/>
+      <stop offset=".35" stop-color="#c38a4c" stop-opacity=".8"/><stop offset=".55" stop-color="#7a4d22" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#2a1c10" stop-opacity=".95"/></linearGradient>
+    <linearGradient id="sc${i}" x1="0" x2="1">
+      <stop offset="0" stop-color="#9b9fa1"/><stop offset=".3" stop-color="#f4f5f5"/>
+      <stop offset=".6" stop-color="#b8bcbe"/><stop offset="1" stop-color="#7c8083"/></linearGradient>
+    <linearGradient id="sb${i}" x1="0" x2="1">
+      <stop offset="0" stop-color="#0d1f24"/><stop offset=".35" stop-color="#2f4d55"/>
+      <stop offset=".6" stop-color="#1a3238"/><stop offset="1" stop-color="#0a171a"/></linearGradient>
+    <radialGradient id="ssh${i}"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="150" cy="598" rx="118" ry="15" fill="url(#ssh${i})"/>
+  <!-- груша пипетки -->
+  <path d="M112 196 V92 Q112 40 150 40 Q188 40 188 92 V196 Z" fill="url(#sb${i})"/>
+  <path d="M128 70 Q130 52 146 48" stroke="#fff" stroke-opacity=".25" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- кольцо -->
+  <rect x="90" y="190" width="120" height="66" rx="10" fill="url(#sc${i})"/>
+  <path d="M90 214 H210 M90 232 H210" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
+  <!-- флакон -->
+  <path d="M110 256 H190 V272 Q246 282 246 330 V560 Q246 590 216 590 H84 Q54 590 54 560 V330 Q54 282 110 272 Z" fill="url(#sg${i})"/>
+  <path d="M76 330 V560" stroke="#fff" stroke-opacity=".28" stroke-width="9" stroke-linecap="round"/>
+  <path d="M222 350 V540" stroke="#fff" stroke-opacity=".12" stroke-width="5" stroke-linecap="round"/>
+  <!-- этикетка -->
+  <rect x="78" y="360" width="144" height="170" rx="12" fill="#f7f4ef"/>
+  <text x="150" y="410" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="17" letter-spacing="3" fill="${t.ink}">AQUELLE</text>
+  <rect x="112" y="424" width="76" height="3" rx="1.5" fill="${t.accent}"/>
+  <text x="150" y="456" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="12" letter-spacing="1.5" fill="${t.ink}">HYALURONIC</text>
+  <text x="150" y="474" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="12" letter-spacing="1.5" fill="${t.ink}">ACID 2%</text>
+  <text x="150" y="512" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="600" font-size="11" letter-spacing="1" fill="${t.ink}" fill-opacity=".6">30 ML · 1 FL OZ</text>
+</svg>`;
+}
+function artHTML(p){
+  if (p.photo) return `<img src="${p.photo}" alt="${p.name}">`;
+  return p.art === "mug" ? mugSVG(p.theme) : serumSVG(p.theme);
+}
+
+/* ---------- иконки ---------- */
+const ICONS = {
+  car:  '<svg viewBox="0 0 24 24"><path d="M5 17h14M3 17v-4l2-5a2 2 0 0 1 2-1.3h10A2 2 0 0 1 19 8l2 5v4"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M4 12h16"/></svg>',
+  bag:  '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7M3 12h18"/></svg>',
+  hand: '<svg viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-.5a6 6 0 0 1-5-2.7L3.3 14.6a1.6 1.6 0 0 1 2.5-2L9 15"/></svg>'
+};
+
+/* ---------- слайды ---------- */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function chartSVG(s, t){
+  const W=772, H=520, L=96, R=40, T=50, B=84;
+  const xs = s.points.map(p=>p[0]), ys = s.points.map(p=>p[1]);
+  const xmax = Math.max(...xs), ymin = 30, ymax = 100;
+  const X = x => L + (W-L-R) * x / xmax, Y = y => T + (H-T-B) * (1 - (y-ymin)/(ymax-ymin));
+  const pts = s.points.map(p=>`${X(p[0])},${Y(p[1])}`).join(" ");
+  const area = `M${X(xs[0])},${Y(ymin)} L${pts.replace(/ /g," L")} L${X(xmax)},${Y(ymin)} Z`;
+  let grid = "";
+  for (let y=40; y<=100; y+=20) grid += `<line x1="${L}" x2="${W-R}" y1="${Y(y)}" y2="${Y(y)}" stroke="${t.ink}" stroke-opacity=".08" stroke-width="2"/>
+    <text x="${L-18}" y="${Y(y)+9}" text-anchor="end" font-size="24" font-weight="700" fill="${t.muted}">${y}°</text>`;
+  const xl = s.points.map(p=>`<text x="${X(p[0])}" y="${H-34}" text-anchor="middle" font-size="24" font-weight="700" fill="${t.muted}">${p[0]} ${s.xunit}</text>`).join("");
+  const m = s.points[s.mark];
+  return `<svg viewBox="0 0 ${W} ${H}" font-family="Manrope,sans-serif">
+    <defs><linearGradient id="ca" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${t.accent}" stop-opacity=".35"/><stop offset="1" stop-color="${t.accent}" stop-opacity="0"/></linearGradient></defs>
+    ${grid}${xl}
+    <path d="${area}" fill="url(#ca)"/>
+    <polyline points="${pts}" fill="none" stroke="${t.accent}" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+    ${s.points.map(p=>`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="8" fill="#fff" stroke="${t.accent}" stroke-width="5"/>`).join("")}
+    <line x1="${X(m[0])}" x2="${X(m[0])}" y1="${Y(m[1])+14}" y2="${Y(ymin)}" stroke="${t.deep}" stroke-width="3" stroke-dasharray="8 8"/>
+    <circle cx="${X(m[0])}" cy="${Y(m[1])}" r="16" fill="${t.deep}"/>
+  </svg>`;
+}
+
+function slideHTML(p, s, n, total){
+  const t = p.theme;
+  const vars = Object.entries(t).map(([k,v])=>`--${k}:${v}`).join(";");
+  let inner = "";
+  switch (s.type){
+    case "cover":
+      inner = `<div class="badge">${esc(s.badge)}</div><h1>${esc(s.title)}</h1><div class="sub">${esc(s.sub)}</div>
+        <div class="art">${artHTML(p)}</div>
+        <div class="chips">${s.chips.map(c=>`<span class="chip">${esc(c)}</span>`).join("")}</div>`; break;
+    case "specs":
+      inner = `<h2>${esc(s.title)}</h2><div class="art">${artHTML(p)}</div>
+        <div class="dim dim-v"><span>${esc(s.dims.h)}</span></div><div class="dim dim-h"><span>Ø ${esc(s.dims.w)}</span></div>
+        <div class="table">${s.rows.map(r=>`<div class="row"><small>${esc(r[0])}</small><b>${esc(r[1])}</b></div>`).join("")}</div>`; break;
+    case "chart":
+      inner = `<h2>${esc(s.title)}</h2><div class="sub">${esc(s.sub)}</div>
+        <div class="plot">${chartSVG(s,t)}</div><div class="callout">${esc(s.markText)}</div>`; break;
+    case "grid3":
+      inner = `<h2>${esc(s.title)}</h2><div class="list">${s.items.map(it=>`
+        <div class="item"><div class="ico${it.big?' big':''}">${it.big?esc(it.big):ICONS[it.icon]}</div>
+        <div><h3>${esc(it.head)}</h3><p>${esc(it.text)}</p></div></div>`).join("")}</div>`; break;
+    case "facts":
+      inner = `<h2>${esc(s.title)}</h2><div class="list">${s.items.map(it=>`
+        <div class="fact"><b>${esc(it.big)}</b><span>${esc(it.text)}</span></div>`).join("")}</div>
+        <div class="art">${artHTML(p)}</div>`; break;
+    case "steps":
+      inner = `<h2>${esc(s.title)}</h2><div class="list">${s.items.map((it,k)=>`
+        <div class="step"><div class="num">${k+1}</div><div><h3>${esc(it.head)}</h3><p>${esc(it.text)}</p></div></div>`).join("")}</div>
+        <div class="art">${artHTML(p)}</div>`; break;
+    case "box":
+      inner = `<h2>${esc(s.title)}</h2><ul class="panel">${s.items.map(it=>`<li>${esc(it)}</li>`).join("")}</ul>
+        <div class="art">${artHTML(p)}</div><div class="seal">${esc(s.seal)}</div>
+        <div class="notes">${s.notes.map(esc).join("<br>")}</div>`; break;
+  }
+  const brand = p.art === "mug" ? "NORDA" : "AQUELLE";
+  return `<div class="slide ${s.type}" style="${vars}"><div class="glow"></div>
+    <div class="brand">${brand}</div><div class="idx">${n} / ${total}</div>${inner}
+    <div class="demo">демо-работа · бренд вымышленный</div></div>`;
+}
+
+/* ---------- запуск ---------- */
+const q = new URLSearchParams(location.search);
+const key = q.get("p") || "norda", p = window.PRODUCTS[key];
+const root = document.getElementById("root");
+if (q.get("s")){
+  const n = +q.get("s");
+  root.innerHTML = slideHTML(p, p.slides[n-1], n, p.slides.length);
+} else {
+  document.body.classList.add("sheet");
+  const keys = q.get("p") ? [key] : Object.keys(window.PRODUCTS);
+  root.innerHTML = keys.map(k=>{
+    const pp = window.PRODUCTS[k];
+    return `<h3 style="font:700 20px Manrope;margin:10px 0 14px">${esc(pp.name)}</h3><div class="sheet-grid" style="margin-bottom:40px">${
+      pp.slides.map((s,i)=>`<div class="sheet-cell">${slideHTML(pp,s,i+1,pp.slides.length)}</div>`).join("")}</div>`;
+  }).join("");
+}
+document.fonts.ready.then(()=>document.body.dataset.ready="1");
+</script>
+</body>
+</html>

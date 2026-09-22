@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карточки товаров для маркетплейсов — демо</title>
+<meta name="description" content="Демо-карточки товаров для Wildberries и Ozon: 5 слайдов инфографики, SEO-название и описание.">
+<link rel="stylesheet" href="fonts.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d0f14'/><path d='M28 62l14-28 14 28M62 34v28' stroke='%234f8cff' stroke-width='8' fill='none' stroke-linecap='round'/></svg>">
+<style>
+:root{--bg:#0d0f14;--panel:#151922;--ink:#eef1f7;--muted:#8d97ab;--accent:#4f8cff;--line:rgba(238,241,247,.1)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.back{display:inline-flex;gap:8px;align-items:center;margin-top:34px;color:var(--muted);font-size:.9rem;font-weight:500}
+.back:hover{color:var(--ink)}
+header{padding:40px 0 30px}
+.eyebrow{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.12;margin:14px 0 16px;letter-spacing:-.02em;font-weight:800}
+.sub{color:var(--muted);max-width:66ch;font-weight:400;font-size:1.02rem;margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.fact{padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-size:.86rem;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:700}
+
+.product{margin:46px 0 20px;padding-top:34px;border-top:1px solid var(--line)}
+.p-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.p-head h2{margin:0;font-size:1.55rem;font-weight:800;letter-spacing:-.01em}
+.p-head p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.sizes{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px}
+.sizes button{all:unset;cursor:pointer;padding:8px 16px;border-radius:999px;font-size:.85rem;font-weight:600;color:var(--muted)}
+.sizes button[aria-pressed="true"]{background:var(--accent);color:#08101f}
+
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.strip a{display:block;border-radius:12px;overflow:hidden;aspect-ratio:3/4;background:var(--panel);
+  border:1px solid var(--line);transition:transform .25s,border-color .25s}
+.strip a:hover{transform:translateY(-4px);border-color:rgba(79,140,255,.5)}
+.strip img{width:100%;height:100%;object-fit:cover;display:block}
+
+.seo{display:grid;grid-template-columns:1fr 1.6fr;gap:14px;margin-top:16px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.box small{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.box p{margin:0;font-size:.9rem;color:#c9d0de}
+.box .len{margin-top:8px;font-size:.78rem;color:var(--muted)}
+
+.how{margin:56px 0 0;padding-top:34px;border-top:1px solid var(--line)}
+.how h2{font-size:1.4rem;margin:0 0 16px;font-weight:800}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.steps .box b{display:block;font-size:1rem;margin-bottom:4px;color:var(--ink)}
+.steps .box span{font-size:.88rem;color:var(--muted)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:11px 20px;border-radius:999px;border:1px solid var(--line);font-size:.9rem;font-weight:600}
+.pill:hover{border-color:var(--accent)}
+.pill.primary{background:var(--accent);border-color:var(--accent);color:#08101f}
+footer{padding:50px 0 44px;margin-top:56px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+
+@media (max-width:900px){
+  .strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+  .strip a{scroll-snap-align:start}
+  .seo,.steps{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Все работы</a>
+
+  <header>
+    <div class="eyebrow">Карточки для маркетплейсов</div>
+    <h1>Инфографика для Wildberries и Ozon</h1>
+    <p class="sub">Два демо-товара по 5 слайдов: обложка, характеристики, выгода, сценарии использования и комплектация. К каждому товару — SEO-название и описание для карточки. Бренды NORDA и AQUELLE вымышленные.</p>
+    <div class="facts">
+      <span class="fact"><b>900×1200</b> Wildberries</span>
+      <span class="fact"><b>1200×1600</b> Ozon</span>
+      <span class="fact"><b>5 слайдов</b> на товар</span>
+      <span class="fact">Текст читается на миниатюре в поиске</span>
+    </div>
+  </header>
+
+  <main id="products"></main>
+
+  <section class="how">
+    <h2>Как делаю карточку</h2>
+    <div class="steps">
+      <div class="box"><b>1. Бриф</b><span>Фото товара, характеристики, ссылка на карточку, если она уже есть.</span></div>
+      <div class="box"><b>2. Конкуренты</b><span>Смотрю первую страницу поиска и выбираю, какие выгоды вынести на слайды.</span></div>
+      <div class="box"><b>3. Слайды</b><span>Собираю 5 слайдов по шаблону в цветах бренда, согласую правки.</span></div>
+      <div class="box"><b>4. Файлы</b><span>Отдаю JPG в размерах WB и Ozon плюс тексты для карточки.</span></div>
+    </div>
+    <div class="cta">
+      <a class="pill primary" href="slides.html">Открыть шаблон слайдов</a>
+      <a class="pill" href="../">Другие работы</a>
+    </div>
+  </section>
+</div>
+
+<footer><div class="wrap">© 2026. Демо-работы. Бренды NORDA и AQUELLE вымышленные, характеристики придуманы для примера.</div></footer>
+
+<script src="products.js"></script>
+<script>
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const main = document.getElementById("products");
+Object.values(window.PRODUCTS).forEach((p, k) => {
+  const n = p.slides.length;
+  const sec = document.createElement("section");
+  sec.className = "product";
+  sec.innerHTML = `
+    <div class="p-head">
+      <div><h2>${esc(p.name)}</h2><p>${n} слайдов · нажмите на слайд, чтобы открыть в полном размере</p></div>
+      <div class="sizes" role="group" aria-label="Размер">
+        <button type="button" aria-pressed="true" data-size="wb">WB 900×1200</button>
+        <button type="button" aria-pressed="false" data-size="ozon">Ozon 1200×1600</button>
+      </div>
+    </div>
+    <div class="strip">${Array.from({length:n},(_,i)=>`
+      <a href="${p.sku}/wb/slide-${i+1}.jpg" target="_blank" rel="noopener">
+        <img src="${p.sku}/wb/slide-${i+1}.jpg" alt="${esc(p.name)}, слайд ${i+1}" loading="${k? 'lazy':'eager'}" width="900" height="1200"></a>`).join("")}
+    </div>
+    <div class="seo">
+      <div class="box"><small>SEO-название</small><p>${esc(p.seo_title)}</p><div class="len">${p.seo_title.length} знаков из 100</div></div>
+      <div class="box"><small>Описание для карточки</small><p>${esc(p.seo_text)}</p><div class="len">${p.seo_text.length} знаков из 1000</div></div>
+    </div>`;
+  sec.querySelectorAll(".sizes button").forEach(b => b.addEventListener("click", () => {
+    sec.querySelectorAll(".sizes button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    sec.querySelectorAll(".strip a").forEach((a, i) => {
+      const src = `${p.sku}/${b.dataset.size}/slide-${i+1}.jpg`;
+      a.href = src; a.querySelector("img").src = src;
+    });
+  }));
+  main.appendChild(sec);
+});
+</script>
+</body>
+</html>
