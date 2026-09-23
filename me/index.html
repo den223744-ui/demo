@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Denis — лендинги, карточки товаров, Telegram-боты</title>
+<meta name="description" content="Разработчик на Python. Делаю одностраничные сайты, карточки товаров для маркетплейсов и Telegram-ботов для небольшого бизнеса.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d0f14'/><path d='M28 62l14-28 14 28M62 34v28' stroke='%234f8cff' stroke-width='8' fill='none' stroke-linecap='round'/></svg>">
+<style>
+:root{--bg:#0d0f14;--panel:#151922;--ink:#eef1f7;--muted:#8d97ab;--accent:#4f8cff;--line:rgba(238,241,247,.1)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+.lang{position:fixed;top:18px;right:18px;z-index:20;display:inline-flex;background:rgba(21,25,34,.86);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:999px;padding:4px}
+.lang button{all:unset;cursor:pointer;padding:7px 15px;border-radius:999px;font-size:.82rem;font-weight:700;color:var(--muted);letter-spacing:.03em}
+.lang button[aria-pressed="true"]{background:var(--accent);color:#08101f}
+
+header{padding:92px 0 56px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:-40% 30% auto -20%;height:520px;background:radial-gradient(circle at 30% 40%,rgba(79,140,255,.22),transparent 62%);pointer-events:none}
+.eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-size:clamp(2.1rem,5.4vw,3.4rem);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin:16px 0 18px;max-width:18ch}
+.lead{color:var(--muted);font-size:1.05rem;max-width:62ch;margin:0}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:999px;border:1px solid var(--line);font-size:.92rem;font-weight:600;transition:border-color .2s,transform .2s}
+.pill:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pill.primary{background:var(--accent);border-color:var(--accent);color:#08101f}
+.pill.primary:hover{filter:brightness(1.07)}
+
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:1.5rem;font-weight:800;letter-spacing:-.015em;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 28px;font-size:.96rem}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}
+.card h3{margin:0 0 6px;font-size:1.12rem;font-weight:700}
+.card .price{color:var(--accent);font-weight:700;font-size:.9rem;letter-spacing:.02em}
+.card p{color:var(--muted);font-size:.92rem;margin:12px 0 0}
+.card ul{margin:14px 0 0;padding-left:18px;color:var(--muted);font-size:.9rem}
+.card li{margin:5px 0}
+
+.works{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.work{display:block;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s}
+.work:hover{transform:translateY(-4px);border-color:rgba(79,140,255,.5)}
+.work .thumb{aspect-ratio:16/10;background:#0a0c11 center/cover no-repeat;border-bottom:1px solid var(--line)}
+.work .body{padding:16px 18px}
+.work b{display:block;font-size:.98rem}
+.work span{display:block;color:var(--muted);font-size:.86rem;margin-top:3px}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.step b{display:block;font-size:.98rem;margin-bottom:5px}
+.step span{color:var(--muted);font-size:.89rem}
+
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.fact{padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-size:.85rem;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:700}
+
+.contact{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:start}
+.contact .box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}
+.contact .box p{color:var(--muted);font-size:.93rem;margin:0 0 16px}
+.links{display:flex;flex-direction:column;gap:10px}
+.links a{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border:1px solid var(--line);border-radius:12px;font-size:.93rem;font-weight:600;transition:border-color .2s}
+.links a:hover{border-color:var(--accent)}
+.links a span{color:var(--muted);font-weight:400;font-size:.85rem}
+
+footer{padding:40px 0 48px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+
+[data-en]{display:none}
+html[lang="en"] [data-ru]{display:none}
+html[lang="en"] [data-en]{display:revert}
+
+@media (max-width:880px){
+  .grid3,.works,.steps,.contact{grid-template-columns:1fr}
+  header{padding-top:76px}
+}
+</style>
+</head>
+<body>
+
+<div class="lang" role="group" aria-label="Language">
+  <button type="button" data-set="ru" aria-pressed="true">RU</button>
+  <button type="button" data-set="en" aria-pressed="false">EN</button>
+</div>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow" data-ru>Разработка на заказ</div>
+    <div class="eyebrow" data-en>Freelance development</div>
+
+    <h1 data-ru>Сайты, карточки товаров и Telegram-боты для небольшого бизнеса</h1>
+    <h1 data-en>Websites, product images and Telegram bots for small businesses</h1>
+
+    <p class="lead" data-ru>Меня зовут Денис, я разработчик на Python. Беру задачу целиком: задаю вопросы, согласую объём и срок, показываю промежуточный результат, отдаю файлы и исходники. Работаю из Анталии, на связи с 9:00 до 21:00 по Стамбулу.</p>
+    <p class="lead" data-en>I'm Denis, a Python developer. I take the job end to end: I ask questions first, agree on scope and deadline, share progress as I go, and hand over the files and the source code. Based in Antalya, online 9:00–21:00 Istanbul time.</p>
+
+    <div class="cta">
+      <a class="pill primary" href="#contact" data-ru>Написать мне</a>
+      <a class="pill primary" href="#contact" data-en>Get in touch</a>
+      <a class="pill" href="../" data-ru>Посмотреть работы</a>
+      <a class="pill" href="../en/" data-en>See the work</a>
+    </div>
+
+    <div class="facts">
+      <span class="fact" data-ru><b>50%</b> предоплата, остальное после сдачи</span>
+      <span class="fact" data-en><b>50%</b> upfront, the rest on delivery</span>
+      <span class="fact" data-ru><b>2–6 дней</b> обычный срок</span>
+      <span class="fact" data-en><b>2–6 days</b> typical turnaround</span>
+      <span class="fact" data-ru>Исходники отдаю всегда</span>
+      <span class="fact" data-en>Source code always included</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2 data-ru>Что делаю</h2>
+    <h2 data-en>What I do</h2>
+    <p class="sub" data-ru>Цены стартовые, за простой вариант. Точную назову после короткого брифа.</p>
+    <p class="sub" data-en>Prices are starting points for the simple version. I quote exactly after a short brief.</p>
+
+    <div class="grid3">
+      <div class="card">
+        <h3 data-ru>Одностраничный сайт</h3>
+        <h3 data-en>Landing page</h3>
+        <div class="price" data-ru>от $80</div>
+        <div class="price" data-en>from $80</div>
+        <p data-ru>Кафе, салон, студия, курс, локальная услуга. Чистый HTML, CSS и JavaScript — работает на любом хостинге, включая бесплатный.</p>
+        <p data-en>Cafe, salon, studio, course, local service. Plain HTML, CSS and JavaScript, runs on any hosting including free options.</p>
+        <ul>
+          <li data-ru>Корректно на телефонах</li>
+          <li data-en>Looks right on phones</li>
+          <li data-ru>Форма заявки на почту или в Telegram</li>
+          <li data-en>Lead form to email or Telegram</li>
+          <li data-ru>Помогу с текстами, если их нет</li>
+          <li data-en>Help with the texts if you have none</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 data-ru>Карточки для маркетплейсов</h3>
+        <h3 data-en>Marketplace product images</h3>
+        <div class="price" data-ru>от $15 за товар</div>
+        <div class="price" data-en>from $15 per product</div>
+        <p data-ru>Главное фото и слайды: характеристики, размеры, сценарии использования, комплектация. Текст читается на миниатюре в поиске.</p>
+        <p data-en>Main image plus slides: specs, sizes, use cases, what's in the box. Text stays readable on a phone-sized thumbnail.</p>
+        <ul>
+          <li data-ru>Wildberries, Ozon, Trendyol, Amazon, Etsy</li>
+          <li data-en>Amazon, Etsy, Trendyol, Wildberries, Ozon</li>
+          <li data-ru>Смотрю конкурентов перед работой</li>
+          <li data-en>Competitor check before I start</li>
+          <li data-ru>SEO-название и описание карточки</li>
+          <li data-en>Listing title and description</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 data-ru>Telegram-бот</h3>
+        <h3 data-en>Telegram bot</h3>
+        <div class="price" data-ru>от $50</div>
+        <div class="price" data-en>from $50</div>
+        <p data-ru>Запись, заказы, ответы на частые вопросы, каталог с корзиной. Новые заявки падают вам или администратору прямо в Telegram.</p>
+        <p data-en>Bookings, orders, FAQ answers, a catalog with a cart. New requests land with you or your manager right in Telegram.</p>
+        <ul>
+          <li data-ru>Python, aiogram, база заявок</li>
+          <li data-en>Python, aiogram, a database of requests</li>
+          <li data-ru>Разверну на сервере под ключ</li>
+          <li data-en>Deployed to a server, ready to run</li>
+          <li data-ru>Поддержка по небольшой месячной цене</li>
+          <li data-en>Support on a small monthly plan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-ru>Работы</h2>
+    <h2 data-en>Selected work</h2>
+    <p class="sub" data-ru>Демо-проекты: бренды вымышленные, дизайн и код мои.</p>
+    <p class="sub" data-en>Concept projects: the brands are fictional, the design and code are mine.</p>
+
+    <div class="works">
+      <a class="work" href="../coffee/">
+        <div class="thumb" style="background-image:linear-gradient(140deg,#2a1b10,#120c07)"></div>
+        <div class="body">
+          <b data-ru>Кофейня «Зерно»</b>
+          <b data-en>Coffee shop landing page</b>
+          <span data-ru>Меню, галерея, отзывы, бронь столика</span>
+          <span data-en>Menu, gallery, reviews, table booking</span>
+        </div>
+      </a>
+      <a class="work" href="../beauty/">
+        <div class="thumb" style="background-image:linear-gradient(140deg,#3a2a26,#17100e)"></div>
+        <div class="body">
+          <b data-ru>Студия красоты LUMA</b>
+          <b data-en>Beauty studio website</b>
+          <span data-ru>Услуги с ценами, мастера, запись</span>
+          <span data-en>Services with prices, team, booking</span>
+        </div>
+      </a>
+      <a class="work" href="../cards/">
+        <div class="thumb" style="background-image:linear-gradient(140deg,#16283a,#0a0f16)"></div>
+        <div class="body">
+          <b data-ru>Карточки NORDA и AQUELLE</b>
+          <b data-en>Listing images, two products</b>
+          <span data-ru>По 5 слайдов, два размера</span>
+          <span data-en>Five slides each, two sizes</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-ru>Как идёт работа</h2>
+    <h2 data-en>How it goes</h2>
+    <p class="sub" data-ru>Без сюрпризов в конце: объём и цена фиксируются до старта.</p>
+    <p class="sub" data-en>No surprises at the end: scope and price are fixed before I start.</p>
+
+    <div class="steps">
+      <div class="step">
+        <b data-ru>1. Бриф</b><b data-en>1. Brief</b>
+        <span data-ru>Пара вопросов о бизнесе и о том, что должно получиться.</span>
+        <span data-en>A few questions about your business and the result you want.</span>
+      </div>
+      <div class="step">
+        <b data-ru>2. Смета</b><b data-en>2. Quote</b>
+        <span data-ru>Называю цену и срок. Дальше они не меняются.</span>
+        <span data-en>I name the price and the deadline. They don't change after that.</span>
+      </div>
+      <div class="step">
+        <b data-ru>3. Работа</b><b data-en>3. The work</b>
+        <span data-ru>Показываю промежуточный результат, чтобы правки были по ходу, а не в конце.</span>
+        <span data-en>I share progress so feedback comes early, not at the end.</span>
+      </div>
+      <div class="step">
+        <b data-ru>4. Сдача</b><b data-en>4. Handover</b>
+        <span data-ru>Файлы, исходники, помощь с публикацией.</span>
+        <span data-en>Files, source code, help getting it live.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2 data-ru>Связаться</h2>
+    <h2 data-en>Get in touch</h2>
+    <p class="sub" data-ru>Напишите пару слов о задаче — отвечу в течение дня.</p>
+    <p class="sub" data-en>Send a couple of lines about the job and I'll reply the same day.</p>
+
+    <div class="contact">
+      <div class="box">
+        <p data-ru>Чтобы сразу назвать цену, полезно знать: что за бизнес, что должно получиться, есть ли тексты и фото, к какому сроку нужно. Если чего-то нет — не страшно, разберёмся по ходу.</p>
+        <p data-en>To quote right away it helps to know: what the business is, what the result should be, whether you have texts and photos, and the deadline. Missing some of that is fine, we'll sort it out.</p>
+        <div class="links">
+          <a href="https://t.me/TELEGRAM_USERNAME" target="_blank" rel="noopener">Telegram <span>@TELEGRAM_USERNAME</span></a>
+          <a href="mailto:EMAIL">Email <span>EMAIL</span></a>
+        </div>
+      </div>
+      <div class="box">
+        <p data-ru><b>Оплата и гарантии</b></p>
+        <p data-en><b>Payment and terms</b></p>
+        <p data-ru>50% до начала, 50% после сдачи. Карта, PayPal или USDT. Правки по согласованному объёму — бесплатно, в оговорённом количестве.</p>
+        <p data-en>50% upfront, 50% on delivery. Card, PayPal or USDT. Revisions within the agreed scope are free, up to the agreed number.</p>
+        <p data-ru>Работаю и через Fiverr, если вам спокойнее с площадкой-гарантом.</p>
+        <p data-en>I also work through Fiverr if you'd rather have an escrow in between.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span data-ru>© 2026 Denis · Демо-проекты на этом сайте сделаны для портфолио, бренды вымышленные.</span>
+    <span data-en>© 2026 Denis · The projects shown here are concept work made for this portfolio; the brands are fictional.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.lang button');
+  function set(l){
+    document.documentElement.lang = l;
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.set === l)); });
+    try { localStorage.setItem('lang', l); } catch(e) {}
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ set(b.dataset.set); }); });
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch(e) {}
+  if (!saved) saved = (navigator.language || '').slice(0,2) === 'ru' ? 'ru' : 'en';
+  set(saved);
+})();
+</script>
+</body>
+</html>
