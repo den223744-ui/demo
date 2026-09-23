@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marketplace product images — concept work</title>
-<meta name="description" content="Concept product image sets for Wildberries and Ozon: 5 slides each, listing title and description.">
+<title>Listing images for Amazon and Etsy — concept work</title>
+<meta name="description" content="Concept listing image sets for Amazon, Etsy, eBay and Shopify: 5 slides each, listing title and description.">
 <link rel="stylesheet" href="fonts.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d0f14'/><path d='M28 62l14-28 14 28M62 34v28' stroke='%234f8cff' stroke-width='8' fill='none' stroke-linecap='round'/></svg>">
 <style>
@@ -32,10 +32,10 @@ h1{font-size:clamp(2rem,5vw,3rem);line-height:1.12;margin:14px 0 16px;letter-spa
 .sizes button[aria-pressed="true"]{background:var(--accent);color:#08101f}
 
 .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.strip a{display:block;border-radius:12px;overflow:hidden;aspect-ratio:3/4;background:var(--panel);
+.strip a{display:block;border-radius:12px;overflow:hidden;background:var(--panel);
   border:1px solid var(--line);transition:transform .25s,border-color .25s}
 .strip a:hover{transform:translateY(-4px);border-color:rgba(79,140,255,.5)}
-.strip img{width:100%;height:100%;object-fit:cover;display:block}
+.strip img{width:100%;height:auto;display:block}
 
 .seo{display:grid;grid-template-columns:1fr 1.6fr;gap:14px;margin-top:16px}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
@@ -67,11 +67,11 @@ footer{padding:50px 0 44px;margin-top:56px;border-top:1px solid var(--line);colo
 
   <header>
     <div class="eyebrow">Marketplace images</div>
-    <h1>Product images for Wildberries and Ozon</h1>
-    <p class="sub">Two concept products, five slides each: cover, specs, benefit, use cases and what is in the box. Each product also has a listing title and description. NORDA and AQUELLE are fictional brands.</p>
+    <h1>Listing images for Amazon, Etsy and Shopify</h1>
+    <p class="sub">Two concept products, five slides each: cover, specs, benefit, use cases and what is in the box. Each product also has a listing title and description. Square 2000×2000 for Amazon, Etsy and Shopify, or 1200×1600 for Wildberries and Ozon. NORDA and AQUELLE are fictional brands.</p>
     <div class="facts">
-      <span class="fact"><b>900×1200</b> Wildberries</span>
-      <span class="fact"><b>1200×1600</b> Ozon</span>
+      <span class="fact"><b>2000×2000</b> Amazon · Etsy</span>
+      <span class="fact"><b>1200×1600</b> Wildberries · Ozon</span>
       <span class="fact"><b>5 slides</b> per product</span>
       <span class="fact">Text stays readable in search results</span>
     </div>
@@ -79,13 +79,20 @@ footer{padding:50px 0 44px;margin-top:56px;border-top:1px solid var(--line);colo
 
   <main id="products"></main>
 
+  <section class="how" style="margin-top:34px">
+    <h2>One important note about Amazon</h2>
+    <div class="steps" style="grid-template-columns:1fr">
+      <div class="box"><span>Amazon does not allow text, badges or logos on the <b style="color:var(--ink)">main</b> image (position 1): it must be the product alone on a pure white background. Slides like these belong in positions 2–7 and in A+ content. I prepare a clean main image for Amazon separately, at no extra cost. On Etsy, eBay and Shopify text is allowed on every image, including the first one.</span></div>
+    </div>
+  </section>
+
   <section class="how">
     <h2>How I work</h2>
     <div class="steps">
       <div class="box"><b>1. Brief</b><span>Product photos, specs, and a link to the listing if it exists.</span></div>
       <div class="box"><b>2. Competitors</b><span>I check the first page of search results and pick the benefits worth showing.</span></div>
       <div class="box"><b>3. Slides</b><span>I build five slides in your brand colours and we go through revisions.</span></div>
-      <div class="box"><b>4. Files</b><span>You get JPG files in both sizes plus the listing texts.</span></div>
+      <div class="box"><b>4. Files</b><span>You get JPG files in the size your marketplace needs, plus the listing texts.</span></div>
     </div>
     <div class="cta">
       <a class="pill primary" href="slides.html">Open the slide template</a>
@@ -108,13 +115,13 @@ Object.values(window.PRODUCTS).forEach((p, k) => {
     <div class="p-head">
       <div><h2>${esc(p.name)}</h2><p>${n} slides · click a slide to open it full size</p></div>
       <div class="sizes" role="group" aria-label="Size">
-        <button type="button" aria-pressed="true" data-size="wb">WB 900×1200</button>
-        <button type="button" aria-pressed="false" data-size="ozon">Ozon 1200×1600</button>
+        <button type="button" aria-pressed="true" data-size="amazon">Amazon 2000×2000</button>
+        <button type="button" aria-pressed="false" data-size="ozon">WB / Ozon 1200×1600</button>
       </div>
     </div>
     <div class="strip">${Array.from({length:n},(_,i)=>`
-      <a href="${p.sku}/wb/slide-${i+1}.jpg" target="_blank" rel="noopener">
-        <img src="${p.sku}/wb/slide-${i+1}.jpg" alt="${esc(p.name)}, slide ${i+1}" loading="${k? 'lazy':'eager'}" width="900" height="1200"></a>`).join("")}
+      <a href="${p.sku}/amazon/slide-${i+1}.jpg" target="_blank" rel="noopener">
+        <img src="${p.sku}/amazon/slide-${i+1}.jpg" alt="${esc(p.name)}, slide ${i+1}" loading="${k? 'lazy':'eager'}" width="900" height="1200"></a>`).join("")}
     </div>
     <div class="seo">
       <div class="box"><small>Listing title</small><p>${esc(p.seo_title)}</p><div class="len">${p.seo_title.length} characters of 100</div></div>
